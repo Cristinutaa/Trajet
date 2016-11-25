@@ -6,13 +6,13 @@
 //  Copyright © 2016 Justin Gally. All rights reserved.
 //
 
-#include "TrajetSimple.h"
+#include "TrajetSimple.hpp"
 
 using namespace std;
 
 TrajetSimple::TrajetSimple(const char* d, const char* a, const char* t): depart(d), arrivee(a), transport(t)
 {
-    cout << "Constructeur Trajet Simple Normale" << endl;
+    cout << "Constructeur Trajet Simple" << endl;
 }
 
 TrajetSimple::TrajetSimple(TrajetSimple const &t): Trajet(), transport(t.transport)
@@ -37,6 +37,5 @@ TrajetSimple::~TrajetSimple()
 
 void TrajetSimple::description() const
 {
-    Trajet::description();
-    cout << " en " << transport;
+    cout << "De " << depart << " à " << arrivee << " en " << transport;
 }

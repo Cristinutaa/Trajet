@@ -9,8 +9,10 @@
 //
 
 #include <iostream>
-#include <limits>
-#include "Catalogue.h"
+#include <cstdlib>
+#include "Catalogue.hpp"
+#include "TrajetSimple.hpp"
+#include "TrajetCompose.h"
 
 using namespace std;
 
@@ -62,20 +64,20 @@ int main(int argc, const char * argv[]) {
                     
                     if(choix == 1)
                     {
-                        char dep[255];
-                        char arr[255];
-                        char mdt[255];
+                        char* dep = new char[255];
+                        char* arr = new char[255];
+                        char* mdt = new char[255];
                         saut();
                         cout << "Quelle est votre trajet ?" << endl;
                         cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
                         scanf("%255s - %255s - %255s",dep, arr, mdt);
-                        TrajetSimple* t = new TrajetSimple(dep, arr, mdt);
-                        cout << t;
                         saut();
                         cout << "Le trajet :" << endl;
-                        (*c.ajouterTrajet(t)).description();
+                        (*(c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))).description();
                         cout << "\n\rA été ajouté avec succès !\n\n\r" << endl;
+                        
                         c.afficherTrajet();
+                        
                     }
                     else if(choix == 2)
                     {
@@ -114,13 +116,13 @@ int main(int argc, const char * argv[]) {
                 break;
         }
     }
-   /*TrajetSimple* tab = new TrajetSimple[3];
-    tab[0] = TrajetSimple("Lyon", "Paris", "Bus");
-    tab[1] = TrajetSimple("Paris", "Le Mans", "Bus");
-    tab[2] = TrajetSimple("Le Mans", "Renne", "Train");
-    TrajetSimple* t = new TrajetSimple("Lyon", "Paris", "Train");
-    TrajetSimple* t1 = new TrajetSimple("Marseille", "Montpellier", "Avion");
-    TrajetCompose* t2 = new TrajetCompose("Lyon", "Renne", 3, tab);
+    /*TabDynamique* tabD = new TabDynamique();
+    (*tabD).ajouter( new TrajetSimple("Lyon", "Paris", "Bus"));
+    (*tabD).ajouter( new TrajetSimple("Paris", "Le Mans", "Bus"));
+    (*tabD).ajouter( new TrajetSimple("Le Mans", "Renne", "Train"));
+    Trajet* t = new TrajetSimple("Lyon", "Paris", "Train");
+    Trajet* t1 = new TrajetSimple("Marseille", "Montpellier", "Avion");
+    Trajet* t2 = new TrajetCompose(tabD);
     (*t2).description();
     cout << endl;
     (*t).description();

@@ -1,23 +1,22 @@
 #if !defined (TrajetCompose_H)
 #define TrajetCompose_H
 
-#include "Trajet.h"
-#include "TrajetSimple.h"
-#include "TabDynamique.h"
+#include "Trajet.hpp"
+#include "TrajetSimple.hpp"
+#include "TabDynamique.hpp"
 
 class TrajetCompose: public Trajet
 {
-	public:
-		TrajetCompose(int t, TabDynamique listeDeTrajets);
-        TrajetCompose( TrajetCompose const &t);
-        const char* getDepart() const;
-        const char* getArrivee() const;
-		virtual void description() const;
-		virtual ~TrajetCompose();
-
-
-	protected:
-		TabDynamique trajets;
-		int taille;
+public:
+    TrajetCompose(const TabDynamique* listeDeTrajets);
+    TrajetCompose( TrajetCompose const &t);
+    const char* getDepart() const;
+    const char* getArrivee() const;
+    virtual void description() const;
+    virtual ~TrajetCompose();
+    
+    
+protected:
+    TabDynamique trajets;
 };
 #endif

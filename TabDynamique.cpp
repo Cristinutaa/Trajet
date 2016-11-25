@@ -6,7 +6,7 @@
 //  Copyright © 2016 Justin Gally. All rights reserved.
 //
 
-#include "TabDynamique.h"
+#include "TabDynamique.hpp"
 
 using namespace std;
 
@@ -39,8 +39,7 @@ const Trajet* TabDynamique::ajouter(const Trajet* t)
         reallouer();
     }
     trajets[utilise] = t;
-    utilise++;
-    return t;
+    return trajets[utilise++];
 }
 
 void TabDynamique::reallouer()
@@ -49,7 +48,6 @@ void TabDynamique::reallouer()
     for(int i = 0; i < utilise; i++)
     {
         l[i] = trajets[i];
-        delete trajets[i];
     }
     delete[] trajets;
     trajets = l;
@@ -65,5 +63,3 @@ int TabDynamique::nbElement() const
 {
     return utilise;
 }
-
-

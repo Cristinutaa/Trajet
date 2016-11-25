@@ -6,19 +6,16 @@
 //  Copyright © 2016 Justin Gally. All rights reserved.
 //
 
-#include "Trajet.h"
+#include "Trajet.hpp"
 
 using namespace std;
 
 Trajet::Trajet()
 {
-    cout << "Constructeur Trajet Normale" << endl;
+    cout << "Constructeur Trajet" << endl;
 }
 
 Trajet::~Trajet()
 {
-    cout << "Destructeur Trajet Normale" << endl;
+    cout << "Destructeur Trajet" << endl;
 }
-
-
-

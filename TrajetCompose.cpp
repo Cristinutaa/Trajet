@@ -3,12 +3,14 @@
 
 using namespace std;
 
-TrajetCompose::TrajetCompose(int t, TabDynamique listeDeTrajets):taille(t), trajets(listeDeTrajets)
+TrajetCompose::TrajetCompose(const TabDynamique* listeDeTrajets)
 {
-    cout << "Constructeur Trajet Composé Normale" << endl;
+    cout << "Constructeur Trajet Composé" << endl;
+    trajets = *listeDeTrajets;
+    
 }
 
-TrajetCompose::TrajetCompose( TrajetCompose const &t): taille(t.taille), trajets(t.trajets)
+TrajetCompose::TrajetCompose( TrajetCompose const &t):trajets(t.trajets)
 {
     cout << "Constructeur Trajet Composé De copie" << endl;
 }
@@ -24,12 +26,14 @@ const char* TrajetCompose::getArrivee() const
 }
 
 void TrajetCompose::description() const{
-	for(int i = 0; i<taille; i++){
+    for(int i = 0; i<trajets.nbElement(); i++){
+        
         (*trajets.get(i)).description();
-        cout << " - ";
-	}
+        if(i < trajets.nbElement() -1)
+            cout << " - ";
+    }
 }
 
 TrajetCompose::~TrajetCompose(){
-    cout << "Destructeur Trajet Simple Normale" << endl;
+    cout << "Destructeur Trajet Compose Normale" << endl;
 }
