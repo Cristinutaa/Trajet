@@ -19,6 +19,7 @@ class TabDynamique
     virtual ~TabDynamique();
     const Trajet* ajouter(const Trajet* t);
     const Trajet* get(int i) const;
+    int nbElement() const;
 
 private:
     void reallouer();

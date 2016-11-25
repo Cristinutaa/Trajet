@@ -17,6 +17,8 @@ public:
     Trajet();
     virtual ~Trajet();
     virtual void description() const = 0;
+    virtual const char* getDepart() const = 0;
+    virtual const char* getArrivee() const = 0;
 
 };
 #endif /* Trajet_hpp */

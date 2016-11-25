@@ -10,6 +10,8 @@ class TrajetCompose: public Trajet
 	public:
 		TrajetCompose(int t, TabDynamique listeDeTrajets);
         TrajetCompose( TrajetCompose const &t);
+        const char* getDepart() const;
+        const char* getArrivee() const;
 		virtual void description() const;
 		virtual ~TrajetCompose();
 

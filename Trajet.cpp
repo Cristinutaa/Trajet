@@ -21,5 +21,4 @@ Trajet::~Trajet()
 }
 
 
-void Trajet::description() const;
 

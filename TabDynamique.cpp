@@ -61,4 +61,9 @@ const Trajet* TabDynamique::get(int i) const
     return trajets[i];
 }
 
+int TabDynamique::nbElement() const
+{
+    return utilise;
+}
+
 

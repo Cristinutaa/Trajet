@@ -13,10 +13,19 @@ TrajetCompose::TrajetCompose( TrajetCompose const &t): taille(t.taille), trajets
     cout << "Constructeur Trajet Composé De copie" << endl;
 }
 
+const char* TrajetCompose::getDepart() const
+{
+    return (*trajets.get(0)).getDepart();
+}
+
+const char* TrajetCompose::getArrivee() const
+{
+    return (*trajets.get(trajets.nbElement()-1)).getArrivee();
+}
 
 void TrajetCompose::description() const{
 	for(int i = 0; i<taille; i++){
-        trajets[i].description();
+        (*trajets.get(i)).description();
         cout << " - ";
 	}
 }
