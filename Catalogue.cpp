@@ -32,6 +32,23 @@ void Catalogue::afficherTrajet() const
     }
 }
 
+void Catalogue::rechercherParcourV1(const char* d, const char* a) const
+{
+    int cpt = 0;
+    cout << "Recherche de niveau 1 pour les trajets au départ de " << d << " arrivant à " << a << " : " << endl;
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        if(strcmp(trajets.get(i)->getDepart(), d) == 0 && strcmp(trajets.get(i)->getArrivee(), a) == 0)
+        {
+            cout << "- ";
+            trajets.get(i)->description();
+            cout << endl;
+            cpt ++;
+        }
+    }
+    cout << cpt << " trajet(s) trouvé(s) !" << endl;
+}
+
 const Trajet* Catalogue::ajouterTrajet(const Trajet* t)
 {
     return trajets.ajouter(t);

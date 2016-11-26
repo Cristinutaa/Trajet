@@ -20,7 +20,8 @@ public:
     virtual ~Catalogue();
     void afficherTrajet() const;
     const Trajet* ajouterTrajet(const Trajet* t);
-    void rechercherParcour(char* d, char* a) const;
+    void rechercherParcourV1(const char* d, const char* a) const;
+    void rechercherParcourV2(const char* d, const char* a) const;
     
 private:
     void reallouer();
