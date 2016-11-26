@@ -37,100 +37,140 @@ int main(int argc, const char * argv[]) {
             cin.clear(); // effacer les bits d'erreurs
             cin.ignore( numeric_limits<streamsize>::max(), '\n' ); // supprimer la ligne erronée dans le buffer
         }
-        
-        switch (choix) {
-            case 1: // On affiche le catalogue.
+        if(choix == 1)  // On affiche le catalogue.
+        {
+            saut();
+            c.afficherTrajet();
+        }
+        else if (choix == 2)    //On recherche un trajet.
+        {
+            char* dep = new char[255];
+            char* arr = new char[255];
+            saut();
+            cout << "Quelle trajet recherchez vous ?" << endl;
+            cout << "Ecrivez de la forme : <depart> - <arrivée>" << endl;
+            scanf("%255s - %255s",dep, arr);
+            c.rechercherParcourV1(dep, arr);
+            cout << "\n\n\rRecherche de niveau 2 pour les trajets au départ de " << dep << " arrivant à " << arr << " : " << endl;
+            cout << c.rechercherParcourV2(dep, arr) << " trajet(s) trouvé(s)" << endl;
+            
+            
+        }
+        else if (choix == 3) // On ajoute un trajet.
+        {
+            while(boucle){
                 saut();
-                c.afficherTrajet();
-                break;
+                cout << "Quelle type de trajet voulez vous saisire ?" << endl;
+                cout << "- Un trajet simple (1)." << endl;
+                cout << "- Un trajet composé (2)." << endl;
+                cout << "- Retour au menu (4)." << endl;
                 
-            case 2: //On recherche un trajet.
+                while (!(cin >> choix) || choix < 1 || choix > 4 || choix == 3){
+                    cerr << "Erreur de saisie." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
                 
-                break;
-                
-            case 3: // On ajoute un trajet.
-                while(boucle){
+                if(choix == 1)
+                {
+                    char* dep = new char[255];
+                    char* arr = new char[255];
+                    char* mdt = new char[255];
                     saut();
-                    cout << "Quelle type de trajet voulez vous saisire ?" << endl;
-                    cout << "- Un trajet simple (1)." << endl;
-                    cout << "- Un trajet composé (2)." << endl;
-                    cout << "- Retour au menu (4)." << endl;
+                    cout << "Quelle est votre trajet ?" << endl;
+                    cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
+                    scanf("%255s - %255s - %255s",dep, arr, mdt);
+                    saut();
+                    cout << "Le trajet :\n\r" << (c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))->description() <<"\n\rA été ajouté avec succès !\n\n\r" << endl;
                     
-                    while (!(cin >> choix) || choix < 1 || choix > 4 || choix == 3){
-                        cerr << "Erreur de saisie." << endl;
-                        cin.clear();
-                        cin.ignore( numeric_limits<streamsize>::max(), '\n' );
-                    }
+                    c.afficherTrajet();
                     
-                    if(choix == 1)
+                }
+                else if(choix == 2)
+                {
+                    
+                    TabDynamique* tabD = new TabDynamique();
+                    while(boucle)
                     {
-                        char* dep = new char[255];
-                        char* arr = new char[255];
-                        char* mdt = new char[255];
-                        saut();
-                        cout << "Quelle est votre trajet ?" << endl;
-                        cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
-                        scanf("%255s - %255s - %255s",dep, arr, mdt);
-                        saut();
-                        cout << "Le trajet :" << endl;
-                        (*(c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))).description();
-                        cout << "\n\rA été ajouté avec succès !\n\n\r" << endl;
+                        cout << "Voulez vous ajouter un nouveau trajet ? (1: Oui | 2: Non)" << endl;
+                        
+                        while (!(cin >> choix) || choix < 1 || choix > 2){
+                            cerr << "Erreur de saisie." << endl;
+                            cin.clear();
+                            cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                        }
+                        if(choix == 1)
+                        {
+                            char* arr = new char[255];
+                            char* mdt = new char[255];
+                            saut();
+                            cout << "Quelle est votre trajet ?" << endl;
+                            if(tabD->nbElement() == 0)
+                            {
+                                char* dep = new char[255];
+                                cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
+                                scanf("%255s - %255s - %255s",dep, arr, mdt);
+                                tabD->ajouter(new TrajetSimple(dep, arr, mdt));
+                            }
+                            else{
+                                const char* dep = tabD->get(tabD->nbElement() -1)->getArrivee() ;
+                                cout << "Ecrivez de la forme : <arrivée> - <moyen de transport> pour le trajet au départ de " << dep << endl;
+                                scanf("%255s - %255s", arr, mdt);
+                                tabD->ajouter(new TrajetSimple(dep, arr, mdt));
+                            }
+                                
+                        }
+                        else if (choix == 2)
+                        {
+                            boucle = false;
+                        }
+                    }
+                    boucle = true;
+                    if(tabD->nbElement() > 0)
+                    {
+                        cout << "Le trajet :\n\r" << (c.ajouterTrajet(new TrajetCompose(tabD)))->description() << "\n\rA été ajouté avec succès !\n\n\r" << endl;
                         
                         c.afficherTrajet();
                         
                     }
-                    else if(choix == 2)
-                    {
-                        while(boucle)
-                        {
-                            saut();
-                            cout << "Combien de trajet compose votre trajet composé ? (-1 pour quitter)";
-                            
-                            while (!(cin >> choix) || choix < 2)
-                            {
-                                cerr << "Erreur de saisie." << endl;
-                                if(choix < 2){
-                                    cerr << "Veuillez saisire un nombre supérieur à 2 !" << endl;
-                                }
-                                cin.clear();
-                                cin.ignore( numeric_limits<streamsize>::max(), '\n' );
-                            }
-                            
-                        }
-                        boucle = true;
+                    else{
+                        cout << "Aucun trajet n'a été ajouté !" << endl;
                     }
-                    else if(choix == 4)
-                    {
-                        boucle = false;
-                    }
-                    
                 }
-                boucle = true;
-                break;
+                else if(choix == 4)
+                {
+                    boucle = false;
+                }
                 
-            case 4: // On quitte le programme.
-                boucle = false;
-                break;
-                
-            default:
-                break;
+            }
+            boucle = true;
         }
+        else if (choix == 4)    // On quitte le programme.
+            boucle = false;
     }
-    /*TabDynamique* tabD = new TabDynamique();
-    (*tabD).ajouter( new TrajetSimple("Lyon", "Paris", "Bus"));
-    (*tabD).ajouter( new TrajetSimple("Paris", "Le Mans", "Bus"));
-    (*tabD).ajouter( new TrajetSimple("Le Mans", "Renne", "Train"));
-    Trajet* t = new TrajetSimple("Lyon", "Paris", "Train");
-    Trajet* t1 = new TrajetSimple("Marseille", "Montpellier", "Avion");
-    Trajet* t2 = new TrajetCompose(tabD);
-    (*t2).description();
-    cout << endl;
-    (*t).description();
-    cout << endl;
-    c.ajouterTrajet(t);
-    c.ajouterTrajet(t2);
-    c.ajouterTrajet(t1);
-    c.afficherTrajet();*/
+    /*TabDynamique* td1 = new TabDynamique();
+    TabDynamique* td2 = new TabDynamique();
+    (*td1).ajouter( new TrajetSimple("B", "Y", "MT3"));
+    (*td1).ajouter( new TrajetSimple("Y", "C", "MT2"));
+    (*td2).ajouter( new TrajetSimple("A", "Z", "MT2"));
+    (*td2).ajouter( new TrajetSimple("Z", "C", "MT1"));
+    Trajet* ts1 = new TrajetSimple("A", "B", "MT1");
+    Trajet* ts2 = new TrajetSimple("B", "C", "MT1");
+    Trajet* tc1 = new TrajetCompose(td1);
+    Trajet* tc2 = new TrajetCompose(td2);
+    Trajet* ts3 = new TrajetSimple("B", "J", "MT1");
+    Trajet* ts4 = new TrajetSimple("J", "C", "MT1");
+    c.ajouterTrajet(ts1);
+    c.ajouterTrajet(tc1);
+    c.ajouterTrajet(ts2);
+    c.ajouterTrajet(tc2);
+    c.ajouterTrajet(ts3);
+    c.ajouterTrajet(ts4);
+    c.afficherTrajet();
+    
+    c.rechercherParcourV1("A", "C");
+    cout << "Recherche de niveau 2 pour les trajets au départ de A arrivant à C : " << endl;
+    cout << c.rechercherParcourV2("A", "C") << " trajet(s) trouvé(s)" << endl;*/
     
     return 0;
 }
