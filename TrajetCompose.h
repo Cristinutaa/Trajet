@@ -12,7 +12,7 @@ public:
     TrajetCompose( TrajetCompose const &t);
     const char* getDepart() const;
     const char* getArrivee() const;
-    virtual void description() const;
+    virtual const char* description() const;
     virtual ~TrajetCompose();
     
     

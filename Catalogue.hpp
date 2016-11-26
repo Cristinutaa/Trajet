@@ -21,10 +21,11 @@ public:
     void afficherTrajet() const;
     const Trajet* ajouterTrajet(const Trajet* t);
     void rechercherParcourV1(const char* d, const char* a) const;
-    void rechercherParcourV2(const char* d, const char* a) const;
+    int rechercherParcourV2(const char* d, const char* a) const;
     
 private:
     void reallouer();
+    int nbrTrajet(const char* d, const char* a, const int j, const char* ch) const;
 protected:
     TabDynamique trajets;
     

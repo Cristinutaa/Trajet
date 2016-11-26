@@ -18,7 +18,7 @@ public:
     TrajetSimple(const char* d = "", const char* a = "", const char* t = "");
     TrajetSimple(TrajetSimple const &t);
     virtual ~TrajetSimple();
-    virtual void description() const;
+    virtual const char* description() const;
     const char* getDepart() const;
     const char* getArrivee() const;
     

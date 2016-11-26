@@ -51,6 +51,10 @@ int main(int argc, const char * argv[]) {
             cout << "Ecrivez de la forme : <depart> - <arrivée>" << endl;
             scanf("%255s - %255s",dep, arr);
             c.rechercherParcourV1(dep, arr);
+            cout << "\n\n\rRecherche de niveau 2 pour les trajets au départ de " << dep << " arrivant à " << arr << " : " << endl;
+            cout << c.rechercherParcourV2(dep, arr) << " trajet(s) trouvé(s)" << endl;
+            
+            
         }
         else if (choix == 3) // On ajoute un trajet.
         {
@@ -77,9 +81,7 @@ int main(int argc, const char * argv[]) {
                     cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
                     scanf("%255s - %255s - %255s",dep, arr, mdt);
                     saut();
-                    cout << "Le trajet :" << endl;
-                    (c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))->description();
-                    cout << "\n\rA été ajouté avec succès !\n\n\r" << endl;
+                    cout << "Le trajet :\n\r" << (c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))->description() <<"\n\rA été ajouté avec succès !\n\n\r" << endl;
                     
                     c.afficherTrajet();
                     
@@ -126,11 +128,11 @@ int main(int argc, const char * argv[]) {
                     boucle = true;
                     if(tabD->nbElement() > 0)
                     {
-                        cout << "Le trajet :" << endl;
-                        (c.ajouterTrajet(new TrajetCompose(tabD)))->description();
-                        cout << "\n\rA été ajouté avec succès !\n\n\r" << endl;
+                        cout << "Le trajet :\n\r" << (c.ajouterTrajet(new TrajetCompose(tabD)))->description() << "\n\rA été ajouté avec succès !\n\n\r" << endl;
+                        
                         c.afficherTrajet();
-                        }
+                        
+                    }
                     else{
                         cout << "Aucun trajet n'a été ajouté !" << endl;
                     }
@@ -146,21 +148,29 @@ int main(int argc, const char * argv[]) {
         else if (choix == 4)    // On quitte le programme.
             boucle = false;
     }
-    /*TabDynamique* tabD = new TabDynamique();
-    (*tabD).ajouter( new TrajetSimple("Lyon", "Paris", "Bus"));
-    (*tabD).ajouter( new TrajetSimple("Paris", "Le Mans", "Bus"));
-    (*tabD).ajouter( new TrajetSimple("Le Mans", "Renne", "Train"));
-    Trajet* t = new TrajetSimple("Lyon", "Paris", "Train");
-    Trajet* t1 = new TrajetSimple("Marseille", "Montpellier", "Avion");
-    Trajet* t2 = new TrajetCompose(tabD);
-    (*t2).description();
-    cout << endl;
-    (*t).description();
-    cout << endl;
-    c.ajouterTrajet(t);
-    c.ajouterTrajet(t2);
-    c.ajouterTrajet(t1);
-    c.afficherTrajet();*/
+    /*TabDynamique* td1 = new TabDynamique();
+    TabDynamique* td2 = new TabDynamique();
+    (*td1).ajouter( new TrajetSimple("B", "Y", "MT3"));
+    (*td1).ajouter( new TrajetSimple("Y", "C", "MT2"));
+    (*td2).ajouter( new TrajetSimple("A", "Z", "MT2"));
+    (*td2).ajouter( new TrajetSimple("Z", "C", "MT1"));
+    Trajet* ts1 = new TrajetSimple("A", "B", "MT1");
+    Trajet* ts2 = new TrajetSimple("B", "C", "MT1");
+    Trajet* tc1 = new TrajetCompose(td1);
+    Trajet* tc2 = new TrajetCompose(td2);
+    Trajet* ts3 = new TrajetSimple("B", "J", "MT1");
+    Trajet* ts4 = new TrajetSimple("J", "C", "MT1");
+    c.ajouterTrajet(ts1);
+    c.ajouterTrajet(tc1);
+    c.ajouterTrajet(ts2);
+    c.ajouterTrajet(tc2);
+    c.ajouterTrajet(ts3);
+    c.ajouterTrajet(ts4);
+    c.afficherTrajet();
+    
+    c.rechercherParcourV1("A", "C");
+    cout << "Recherche de niveau 2 pour les trajets au départ de A arrivant à C : " << endl;
+    cout << c.rechercherParcourV2("A", "C") << " trajet(s) trouvé(s)" << endl;*/
     
     return 0;
 }

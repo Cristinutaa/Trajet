@@ -12,12 +12,12 @@ using namespace std;
 
 TrajetSimple::TrajetSimple(const char* d, const char* a, const char* t): depart(d), arrivee(a), transport(t)
 {
-    cout << "Constructeur Trajet Simple" << endl;
+    //cout << "Constructeur Trajet Simple" << endl;
 }
 
 TrajetSimple::TrajetSimple(TrajetSimple const &t): Trajet(), transport(t.transport)
 {
-    cout << "Constructeur Trajet Simple de copie" << endl;
+    //cout << "Constructeur Trajet Simple de copie" << endl;
 }
 
 const char* TrajetSimple::getDepart() const
@@ -32,10 +32,11 @@ const char* TrajetSimple::getArrivee() const
 
 TrajetSimple::~TrajetSimple()
 {
-    cout << "Destructeur Trajet Simple Normale" << endl;
+   // cout << "Destructeur Trajet Simple Normale" << endl;
 }
 
-void TrajetSimple::description() const
+const char* TrajetSimple::description() const
 {
-    cout << "De " << depart << " à " << arrivee << " en " << transport;
+    char* res = new char[255];
+    return strcat(strcat(strcat(strcat(strcat(strcat(res, "De "), depart), " à "), arrivee), " en "), transport);
 }
