@@ -73,7 +73,7 @@ int main(int argc, const char * argv[]) {
                         scanf("%255s - %255s - %255s",dep, arr, mdt);
                         saut();
                         cout << "Le trajet :" << endl;
-                        (*(c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))).description();
+                        (c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))->description();
                         cout << "\n\rA été ajouté avec succès !\n\n\r" << endl;
                         
                         c.afficherTrajet();
@@ -81,23 +81,54 @@ int main(int argc, const char * argv[]) {
                     }
                     else if(choix == 2)
                     {
+                        
+                        TabDynamique* tabD = new TabDynamique();
                         while(boucle)
                         {
-                            saut();
-                            cout << "Combien de trajet compose votre trajet composé ? (-1 pour quitter)";
+                            cout << "Voulez vous ajouter un nouveau trajet ? (1: Oui | 2: Non)" << endl;
                             
-                            while (!(cin >> choix) || choix < 2)
-                            {
+                            while (!(cin >> choix) || choix < 1 || choix > 2){
                                 cerr << "Erreur de saisie." << endl;
-                                if(choix < 2){
-                                    cerr << "Veuillez saisire un nombre supérieur à 2 !" << endl;
-                                }
                                 cin.clear();
                                 cin.ignore( numeric_limits<streamsize>::max(), '\n' );
                             }
-                            
+                            if(choix == 1)
+                            {
+                                char* arr = new char[255];
+                                char* mdt = new char[255];
+                                saut();
+                                cout << "Quelle est votre trajet ?" << endl;
+                                if(tabD->nbElement() == 0)
+                                {
+                                    char* dep = new char[255];
+                                    cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
+                                    scanf("%255s - %255s - %255s",dep, arr, mdt);
+                                    tabD->ajouter(new TrajetSimple(dep, arr, mdt));
+                                }
+                                else{
+                                    const char* dep = tabD->get(tabD->nbElement() -1)->getArrivee() ;
+                                    cout << "Ecrivez de la forme : <arrivée> - <moyen de transport> pour le trajet au départ de " << dep << endl;
+                                    scanf("%255s - %255s", arr, mdt);
+                                    tabD->ajouter(new TrajetSimple(dep, arr, mdt));
+                                }
+                                
+                            }
+                            else if (choix == 2)
+                            {
+                                boucle = false;
+                            }
                         }
                         boucle = true;
+                        if(tabD->nbElement() > 0)
+                        {
+                            cout << "Le trajet :" << endl;
+                            (c.ajouterTrajet(new TrajetCompose(tabD)))->description();
+                            cout << "\n\rA été ajouté avec succès !\n\n\r" << endl;
+                            c.afficherTrajet();
+                        }
+                        else{
+                            cout << "Aucun trajet n'a été ajouté !" << endl;
+                        }
                     }
                     else if(choix == 4)
                     {
