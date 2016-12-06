@@ -1,43 +1,126 @@
-#ifndef TabDynamique_hpp
+/*************************************************************************
+ TabDynamique  -  Classe representant un tableau dynamique de trajets
+ -------------------
+ début                : 18/11/2016
+ copyright            : (C) 2016 par GALLY Justin et ARHILIUC Cristina
+ e-mail               : justin.gally@insa-lyon.fr ou cristina.arhiliuc@insa-lyon.fr
+ *************************************************************************/
+
+//---------- Interface de la classe <TabDynamique> (fichier TabDynamique.hpp) ----------------
+#if ! defined (TabDynamique_hpp)
 #define TabDynamique_hpp
 
+
+//--------------------------------------------------- Interfaces utilisées
 #include "Trajet.hpp"
-#include <stdio.h>
+
+
+//------------------------------------------------------------------------
+// Rôle de la classe <TabDynamique>
+//
+// Cette classe gère l'allocation mémoire d'un tableau de trajets.
+//
+//
+//------------------------------------------------------------------------
+
 
 class TabDynamique
 {
+//----------------------------------------------------------------- PUBLIQUE
 public:
-    // Constructeur par défaut qui met la valeur de cases alluées à max si une valeur est introduite et à 5 sinon
-    TabDynamique(int max = 5);
-    // Constructeur qui prends comme parametres: max - le nombre de cases alluées, taille - le nombre de cases utilisées et un tableau pointeurs de trajet
-    TabDynamique(int max, int taille, const Trajet** t);
-
-    //Destructeur de la classe
-    virtual ~TabDynamique();
-
-    //Methode qui permet l'ajout d'un trajet dans le tableau
+    
+    //----------------------------------------------------- Méthodes publiques
+    
+    
     const Trajet* ajouter(const Trajet* t);
+    // Description :
+    //      Methode qui permet l'ajout d'un trajet dans le tableau.
+    // Mode d'emploi :
+    //      Faire passer en parametre le pointeur vers le trajet que vous souhaitez ajouter au tableau.
 
-    //Methode qui renvoie le trajet qui est dans la case i de tableau
+    
     const Trajet* get(int i) const;
+    // Description :
+    //      Methode qui renvoie le trajet qui est situé à la position i du tableau.
+    // Mode d'emploi :
+    //      Faire passer en parametre la position du trajet recherché.
 
-    //Methode qui renvoie le nombre d'elements dans le tableau
+    
     int nbElement() const;
+    // Description :
+    //      Methode qui renvoie le nombre d'elements dans le tableau.
     
+    
+    //------------------------------------------------- Surcharge d'opérateurs
+    TabDynamique & operator = ( const TabDynamique & tab );
+    
+    
+    //-------------------------------------------- Constructeurs - destructeur
+    TabDynamique(int max = 5);
+    // Description :
+    //      Constructeur par défaut qui met la valeur des cases allouées à max si une valeur est introduite et à 5 sinon.
+    // Mode d'emploi :
+    //      Entrer la valeur maximum que vous souhaitez allouer au tableau.
+    // Contrat :
+    //      max doit être positif.
+    
+    
+    TabDynamique(int max, int taille, const Trajet** t);
+    // Description :
+    //      Constructeur qui prends comme parametres: max - le nombre de cases alluées, taille - le nombre de cases utilisées
+    //      et un tableau de pointeurs de trajet.
+    // Mode d'emploi :
+    //      Entrer la valeur maximum que vous souhaitez allouer au tableau, la taille du tableau de pointeurs de trajets t
+    //      ainsi que ce même tableau t.
+    // Contrat :
+    //      La taille passée en parametre doit correspondre au nombre de pointeurs définit dans le tableau de pointeurs
+    //      de trajets t.
+    
+    
+    TabDynamique(const TabDynamique & tab);
+    // Description :
+    //      Constructeur de copie.
+    // Mode d'emploi :
+    //      Faite passer en parametre le tableau dynamique de trajets que vous voulez copier.
+    
+    
+    virtual ~TabDynamique();
+    // Description :
+    //      Destructeur de la classe.
+
+    
+//------------------------------------------------------------------ PRIVE
 private:
-    //Methode qui augment le nombre des cases allouées pour le tableau
-    void reallouer();
     
+    //----------------------------------------------------- Méthodes privées
+    
+    
+    void reallouer();
+    // Description :
+    //      Methode qui augmente le nombre de cases mémoires allouées pour le tableau dynamique.
+    
+    
+//------------------------------------------------------------------ PROTEGE
 protected:
-    // Le nombre de cases allouées pour le tableau
+    
+    //----------------------------------------------------- Attributs protégés
+    
+    
     int alloue;
+    // Description :
+    //      Le nombre de cases allouées pour le tableau.
 
-    // Le nombtre de cases utilisées
+    
     int utilise;
+    // Description :
+    //      Le nombre de cases utilisées.
 
-    // Le tableau de trajets
+    
     const Trajet** trajets;
+    // Description :
+    //      Le tableau de trajets.
+    
     
 };
 
-#endif /* TabDynamique_hpp */
+#endif // TabDynamique_hpp
