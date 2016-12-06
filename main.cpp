@@ -1,15 +1,6 @@
-//
-//  main.cpp
-//  TP2-POO1
-//
-//  Pour le 9/12/2016 avant 14h
-//
-//  Created by Justin Gally on 18/11/2016.
-//  Copyright © 2016 Justin Gally. All rights reserved.
-//
-
 #include <iostream>
 #include <cstdlib>
+#include <limits>
 #include "Catalogue.hpp"
 #include "TrajetSimple.hpp"
 #include "TrajetCompose.h"
@@ -25,7 +16,7 @@ int main(int argc, const char * argv[]) {
     Catalogue c;
     bool boucle = true;
     int choix;
-    while(boucle){  // La boucle principale du programme.
+    while(boucle){  // La boucle principale du programme/ Le menu principal
         saut();
         cout << "Que shouaitez vous faire ?" << endl;
         cout << "- Afficher le catalogue de voyage (1)." << endl;
