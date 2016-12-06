@@ -1,10 +1,3 @@
-//
-//  Trajet.hpp
-//  TP2-POO1
-//
-//  Created by Justin Gally on 18/11/2016.
-//  Copyright © 2016 Justin Gally. All rights reserved.
-//
 
 #ifndef Trajet_hpp
 #define Trajet_hpp
@@ -14,10 +7,17 @@
 class Trajet
 {
 public:
+    // Le constructeur et le destructeur des trajets
     Trajet();
     virtual ~Trajet();
+
+    // Une methode virtuelle pure qui renvoie la description d'un trajet
     virtual const char* description() const = 0;
+
+    // Une methode virtuelle pure qui renvoie la ville de depart d'un trajet
     virtual const char* getDepart() const = 0;
+
+    // Une methode virtuelle pure qui renvoie la ville d'arrivée d'un trajet
     virtual const char* getArrivee() const = 0;
     
 };
