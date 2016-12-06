@@ -11,13 +11,13 @@ public:
     Trajet();
     virtual ~Trajet();
 
-    // Une methode virtuelle pure qui renvoie la description d'un trajet
+    // Methode virtuelle pure qui renvoie la description d'un trajet
     virtual const char* description() const = 0;
 
-    // Une methode virtuelle pure qui renvoie la ville de depart d'un trajet
+    // Methode virtuelle pure qui renvoie la ville de depart d'un trajet
     virtual const char* getDepart() const = 0;
 
-    // Une methode virtuelle pure qui renvoie la ville d'arrivée d'un trajet
+    // Methode virtuelle pure qui renvoie la ville d'arrivée d'un trajet
     virtual const char* getArrivee() const = 0;
     
 };

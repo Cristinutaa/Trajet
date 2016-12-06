@@ -16,13 +16,13 @@ public:
     //Destructeur
     virtual ~TrajetSimple();
 
-    // Une methode virtuelle qui renvoie une description d'un trajet simple
+    // Methode virtuelle qui renvoie une description d'un trajet simple
     virtual const char* description() const;
 
-    // Une methode qui renvoie la ville de depart d'un trajet
+    // Methode qui renvoie la ville de depart d'un trajet
     const char* getDepart() const;
 
-    // Une methode qui renvoie la ville d'arrivée d'un trajet
+    // Methode qui renvoie la ville d'arrivée d'un trajet
     const char* getArrivee() const;
     
 protected:

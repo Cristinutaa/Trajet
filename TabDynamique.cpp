@@ -1,11 +1,3 @@
-//
-//  TabDynamique.cpp
-//  TP2-POO1
-//
-//  Created by Justin Gally on 25/11/2016.
-//  Copyright © 2016 Justin Gally. All rights reserved.
-//
-
 #include "TabDynamique.hpp"
 
 using namespace std;

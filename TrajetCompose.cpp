@@ -1,5 +1,6 @@
 #include <iostream>
 #include "TrajetCompose.h"
+#include <string.h>
 
 using namespace std;
 

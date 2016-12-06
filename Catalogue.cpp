@@ -1,11 +1,3 @@
-//
-//  Catalogue.cpp
-//  TP2-POO1
-//
-//  Created by Justin Gally on 18/11/2016.
-//  Copyright © 2016 Justin Gally. All rights reserved.
-//
-
 #include "Catalogue.hpp"
 #include <cstring>
 
@@ -48,11 +40,15 @@ void Catalogue::rechercherParcourV1(const char* d, const char* a) const
 
 int Catalogue::nbrTrajet(const char* d, const char* a, const int j, const char* ch) const
 {
+    // Si le trajet j respecte la condition, affiche-lui et renvoie 1 - le nombre de trajets;
     if(strcmp(trajets.get(j)->getDepart(), d) == 0 && strcmp(trajets.get(j)->getArrivee(), a) == 0)
     {
         cout << ch << trajets.get(j)->description() << endl;
         return 1;
     }
+    // Sinon, mais si la ville de depart coincide avec celle demandé,
+    // essaye de voir si il y a des combinaisons possibles pour arriver dans la ville d'arrivée
+    // Si il y a, affiche le trajets et renvoie leur nombre
     else if(strcmp(trajets.get(j)->getDepart(), d) == 0 )
     {
         int cpt = 0;
@@ -67,6 +63,7 @@ int Catalogue::nbrTrajet(const char* d, const char* a, const int j, const char* 
         
         return cpt;
     }
+    // Sinon, renvoie 0
     else
         return 0;
 }
