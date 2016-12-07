@@ -1,4 +1,5 @@
 #include "TabDynamique.hpp"
+#include <stdio.h>
 
 using namespace std;
 
@@ -48,7 +49,10 @@ void TabDynamique::reallouer()
 
 const Trajet* TabDynamique::get(int i) const
 {
-    return trajets[i];
+    if(i < utilise && i >= 0)
+        return trajets[i];
+    else
+        return NULL;
 }
 
 int TabDynamique::nbElement() const

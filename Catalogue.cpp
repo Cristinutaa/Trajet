@@ -1,5 +1,7 @@
 #include "Catalogue.hpp"
 #include <cstring>
+#include <iostream>
+
 
 using namespace std;
 Catalogue::Catalogue()
