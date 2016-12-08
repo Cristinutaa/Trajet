@@ -1,8 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <limits>
-#include "Catalogue.hpp"
-#include "TrajetSimple.hpp"
+#include "Catalogue.h"
+#include "TrajetSimple.h"
 #include "TrajetCompose.h"
 
 using namespace std;
@@ -139,29 +139,5 @@ int main(int argc, const char * argv[]) {
         else if (choix == 4)    // On quitte le programme.
             boucle = false;
     }
-    /*TabDynamique* td1 = new TabDynamique();
-    TabDynamique* td2 = new TabDynamique();
-    (*td1).ajouter( new TrajetSimple("B", "Y", "MT3"));
-    (*td1).ajouter( new TrajetSimple("Y", "C", "MT2"));
-    (*td2).ajouter( new TrajetSimple("A", "Z", "MT2"));
-    (*td2).ajouter( new TrajetSimple("Z", "C", "MT1"));
-    Trajet* ts1 = new TrajetSimple("A", "B", "MT1");
-    Trajet* ts2 = new TrajetSimple("B", "C", "MT1");
-    Trajet* tc1 = new TrajetCompose(td1);
-    Trajet* tc2 = new TrajetCompose(td2);
-    Trajet* ts3 = new TrajetSimple("B", "J", "MT1");
-    Trajet* ts4 = new TrajetSimple("J", "C", "MT1");
-    c.ajouterTrajet(ts1);
-    c.ajouterTrajet(tc1);
-    c.ajouterTrajet(ts2);
-    c.ajouterTrajet(tc2);
-    c.ajouterTrajet(ts3);
-    c.ajouterTrajet(ts4);
-    c.afficherTrajet();
-    
-    c.rechercherParcourV1("A", "C");
-    cout << "Recherche de niveau 2 pour les trajets au départ de A arrivant à C : " << endl;
-    cout << c.rechercherParcourV2("A", "C") << " trajet(s) trouvé(s)" << endl;*/
-    
     return 0;
 }

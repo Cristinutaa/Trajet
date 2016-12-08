@@ -1,90 +1,101 @@
 /*************************************************************************
- TrajetCompose  -  Classe representant un trajet compose
+ TrajetSimple  -  Classe representant un trajet simple
  -------------------
  début                : 18/11/2016
  copyright            : (C) 2016 par GALLY Justin et ARHILIUC Cristina
  e-mail               : justin.gally@insa-lyon.fr ou cristina.arhiliuc@insa-lyon.fr
  *************************************************************************/
 
-//---------- Interface de la classe <TrajetCompose> (fichier TrajetCompose.h) ----------------
-#if ! defined (TrajetCompose_h)
-#define TrajetCompose_h
+//---------- Interface de la classe <TrajetSimple> (fichier TrajetSimple.h) ----------------
+#ifndef TrajetSimple_h
+#define TrajetSimple_h
 
 
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
-#include "TrajetSimple.h"
-#include "TabDynamique.h"
 
 
 //------------------------------------------------------------------------
-// Rôle de la classe <TrajetCompose>
+// Rôle de la classe <TrajetSimple>
 //
-// Cette classe represente un trajets compose du catalogue.
+// Cette classe represente un trajets simple du catalogue.
 //
 //
 //------------------------------------------------------------------------
 
 
-class TrajetCompose: public Trajet
+class TrajetSimple: public Trajet
 {
 //----------------------------------------------------------------- PUBLIQUE
 public:
     
     //----------------------------------------------------- Méthodes publiques
-    
+
     
     const char* getDepart() const;
     // Description :
     //      Cette methode renvoie la ville de depart du trajet composé.
-
+    
     
     const char* getArrivee() const;
     // Description :
     //      Cette methode renvoie la ville d'arrivée du trajet composé.
-
+    
     
     virtual const char* description() const;
     // Description :
-    //      Cette methode renvoi le trajet composé.
+    //      Cette methode affiche le trajet composé.
     
     
     //------------------------------------------------- Surcharge d'opérateurs
-    TrajetCompose & operator = ( const TrajetCompose & t );
+    TrajetSimple & operator = ( const TrajetSimple & t );
     // Description :
     //      Surcharge de l'opérateur égale.
     
     
     //-------------------------------------------- Constructeurs - destructeur
-
     
-    TrajetCompose(const TabDynamique* listeDeTrajets);
+    
+    TrajetSimple(const char* d = "", const char* a = "", const char* t = "");
     // Description :
     //      Constructeur par défaut.
     // Mode d'emploi :
-    //      Faire passer en paramètre un tableau dynamique referencant la liste des trajets composant ce trajet dynamique.
+    //      Faire passer en parametre la ville de départ, celle d'arrivée et le moyen de transport utilisé.
     
     
-    TrajetCompose( TrajetCompose const &t);
+    TrajetSimple(TrajetSimple const &t);
     // Description :
     //      Constructeur par copie.
     // Mode d'emploi :
-    //      Faite passer en parametre le trajet composé que vous voulez copier.
+    //      Faire passer en argument le trajet simple que vous souhaitez copier.
     
     
-    virtual ~TrajetCompose();
-    // Desription :
-    //      Destructeur par defaut.
+    virtual ~TrajetSimple();
+    // Description :
+    //      Destructeur de la classe trajet simple.
     
-    
+
 //------------------------------------------------------------------ PROTEGE
 protected:
     
     //----------------------------------------------------- Attributs protégés
     
     
-    TabDynamique trajets;
+    const char* transport;
     // Description :
-    //      Cet attribut est le tableau dynamique des trajets qui forment le trajet composé
+    //      Cet atribut est le moyen de transport pour efectuer le trajet simple.
+
+    
+    const char* depart;
+    // Description :
+    //      Cet atribut est la ville de depart du trajet simple.
+
+    
+    const char* arrivee;
+    // Description :
+    //      Cet atribut est la ville d'arrivée du trajet simple.
+    
+    
 };
-#endif // TrajetCompose_h
+
+#endif // TrajetSimple_h
