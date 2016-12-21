@@ -14,6 +14,7 @@
 //-------------------------------------------------------- Include système
 #include <cstring>
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 
@@ -32,9 +33,393 @@ void Catalogue::afficherTrajet() const
     
     for(int i = 0; i < trajets.nbElement(); i++)
     {
-        cout << "- " << (*trajets.get(i)).description() << endl;
+        cout << "-  " << trajets.get(i)->description() << endl;
     }
 } //----- Fin de afficherTrajet
+
+
+void Catalogue::sauvegardeTotal(string chemin) const
+{
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        trajets.get(i)->ecrireTrajet(chemin);
+    }
+}
+
+
+void Catalogue::sauvegardeType(string chemin, char type) const
+{
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        if(trajets.get(i)-> getType() == type)
+            trajets.get(i)->ecrireTrajet(chemin);
+    }
+}
+
+
+void Catalogue::sauvegardeVilleD(string chemin, string depart) const
+{
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        if(strcmp(trajets.get(i)-> getDepart(),depart.c_str()) == 0)
+            trajets.get(i)->ecrireTrajet(chemin);
+    }
+}
+
+
+void Catalogue::sauvegardeVilleA(string chemin, string arrivee) const
+{
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        if(strcmp(trajets.get(i)-> getArrivee(),arrivee.c_str()) == 0)
+            trajets.get(i)->ecrireTrajet(chemin);
+    }
+}
+
+
+void Catalogue::sauvegardeVilleDA(string chemin, string depart, string arrivee) const
+{
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        if(strcmp(trajets.get(i)-> getDepart(),depart.c_str()) == 0 && strcmp(trajets.get(i)-> getArrivee(),arrivee.c_str()) == 0)
+            trajets.get(i)->ecrireTrajet(chemin);
+    }
+}
+
+
+void Catalogue::sauvegardeIntervalle(string chemin, int n, int m) const
+{
+    for(int i = 0; i < trajets.nbElement(); i++)
+    {
+        if(i >= n && i <= m)
+            trajets.get(i)->ecrireTrajet(chemin);
+        else if(i > m)
+            break;
+    }
+}
+
+
+string Catalogue::getInfo(string ligne, int id) const
+// Algorithme :
+//
+{
+    if(id >= 0){
+        for(int i = 0; i < id; i++)
+        {
+            if(ligne.find('#') != string::npos)
+            {
+                int taille = ligne.substr(0, ligne.find('#') +1).length();
+                ligne = ligne.substr(ligne.find('#') + 1, ligne.length()-taille);
+            }
+            else
+            {
+                cerr << "Mauvaise valeur de position" << endl;
+                ligne = "";
+                break;
+            }
+        }
+        if(ligne.find('#') != string::npos)
+        {
+            ligne = ligne.substr(0,ligne.find('#'));
+        }
+    }
+    else
+    {
+        cerr << "Mauvaise valeur de position" << endl;
+        ligne = "";
+    }
+    return ligne;
+} //----- Fin de getInfo
+
+
+void Catalogue::chargementIntervalle(string c, int n, int m)
+// Algorithme :
+//
+{
+    if(m-n >= 0)
+    {
+        string line;
+        int nbrTrajet;
+        ifstream fichier;
+        fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+        if (fichier.is_open())
+        {
+            int cpt = 0;
+            while ( getline (fichier,line)  && cpt <= m)
+            {
+                if(cpt >= n)
+                {
+                    if(line[0] == 'S'){
+                        ajouterTrajet(new TrajetSimple(getInfo(line, 1).c_str(), getInfo(line, 2).c_str(), getInfo(line, 3).c_str()));
+                        
+                        
+                    }
+                    else if(line[0] == 'C')
+                    {
+                        nbrTrajet = line[1] - '0';
+                        TabDynamique* liste = new TabDynamique(nbrTrajet);
+                        string depart = getInfo(line, 1);
+                        string arrive, mdt;
+                        for(int i = 3; i < (nbrTrajet *2 +1); i+= 2)
+                        {
+                            arrive = getInfo(line, i);
+                            mdt = getInfo(line, i+1);
+                            liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                            depart = arrive;
+                        }
+                        arrive = getInfo(line, 2);
+                        mdt = getInfo(line, nbrTrajet*2 + 1);
+                        liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                        ajouterTrajet(new TrajetCompose(liste));
+                        
+                    }
+                }
+                cpt++;
+            }
+            
+            fichier.close();
+        }
+        else cout << "Unable to open file";
+    }
+
+} //----- Fin de lire
+
+
+void Catalogue::chargementVilleDA(string c, string depart, string arrivee)
+// Algorithme :
+//
+{
+    string line;
+    int nbrTrajet;
+    ifstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    if (fichier.is_open())
+    {
+        while ( getline (fichier,line) )
+        {
+            if(getInfo(line, 1) == depart && getInfo(line, 2) == arrivee)
+            {
+                if(line[0] == 'S'){
+                    ajouterTrajet(new TrajetSimple(getInfo(line, 1).c_str(), getInfo(line, 2).c_str(), getInfo(line, 3).c_str()));
+                    
+                    
+                }
+                else if(line[0] == 'C')
+                {
+                    nbrTrajet = line[1] - '0';
+                    TabDynamique* liste = new TabDynamique(nbrTrajet);
+                    string depart = getInfo(line, 1);
+                    string arrive, mdt;
+                    for(int i = 3; i < (nbrTrajet *2 +1); i+= 2)
+                    {
+                        arrive = getInfo(line, i);
+                        mdt = getInfo(line, i+1);
+                        liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                        depart = arrive;
+                    }
+                    arrive = getInfo(line, 2);
+                    mdt = getInfo(line, nbrTrajet*2 + 1);
+                    liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                    ajouterTrajet(new TrajetCompose(liste));
+                    
+                }
+            }
+        }
+        
+        fichier.close();
+    }
+    else cout << "Unable to open file";
+    
+} //----- Fin de lire
+
+
+void Catalogue::chargementVilleA(string c, string arrivee)
+// Algorithme :
+//
+{
+    string line;
+    int nbrTrajet;
+    ifstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    if (fichier.is_open())
+    {
+        while ( getline (fichier,line) )
+        {
+            if(getInfo(line, 2) == arrivee)
+            {
+                if(line[0] == 'S'){
+                    ajouterTrajet(new TrajetSimple(getInfo(line, 1).c_str(), getInfo(line, 2).c_str(), getInfo(line, 3).c_str()));
+                    
+                    
+                }
+                else if(line[0] == 'C')
+                {
+                    nbrTrajet = line[1] - '0';
+                    TabDynamique* liste = new TabDynamique(nbrTrajet);
+                    string depart = getInfo(line, 1);
+                    string arrive, mdt;
+                    for(int i = 3; i < (nbrTrajet *2 +1); i+= 2)
+                    {
+                        arrive = getInfo(line, i);
+                        mdt = getInfo(line, i+1);
+                        liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                        depart = arrive;
+                    }
+                    arrive = getInfo(line, 2);
+                    mdt = getInfo(line, nbrTrajet*2 + 1);
+                    liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                    ajouterTrajet(new TrajetCompose(liste));
+                    
+                }
+            }
+        }
+        
+        fichier.close();
+    }
+    else cout << "Unable to open file";
+    
+} //----- Fin de lire
+
+
+void Catalogue::chargementVilleD(string c, string depart)
+// Algorithme :
+//
+{
+    string line;
+    int nbrTrajet;
+    ifstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    if (fichier.is_open())
+    {
+        while ( getline (fichier,line) )
+        {
+            if(getInfo(line, 1) == depart)
+            {
+                if(line[0] == 'S'){
+                    ajouterTrajet(new TrajetSimple(getInfo(line, 1).c_str(), getInfo(line, 2).c_str(), getInfo(line, 3).c_str()));
+                    
+                    
+                }
+                else if(line[0] == 'C')
+                {
+                    nbrTrajet = line[1] - '0';
+                    TabDynamique* liste = new TabDynamique(nbrTrajet);
+                    string depart = getInfo(line, 1);
+                    string arrive, mdt;
+                    for(int i = 3; i < (nbrTrajet *2 +1); i+= 2)
+                    {
+                        arrive = getInfo(line, i);
+                        mdt = getInfo(line, i+1);
+                        liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                        depart = arrive;
+                    }
+                    arrive = getInfo(line, 2);
+                    mdt = getInfo(line, nbrTrajet*2 + 1);
+                    liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                    ajouterTrajet(new TrajetCompose(liste));
+                    
+                }
+            }
+        }
+        
+        fichier.close();
+    }
+    else cout << "Unable to open file";
+    
+} //----- Fin de lire
+
+
+void Catalogue::chargementType(string c, char type)
+// Algorithme :
+//
+{
+    string line;
+    int nbrTrajet;
+    ifstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    if (fichier.is_open())
+    {
+        while ( getline (fichier,line) )
+        {
+            if(line[0] == type)
+            {
+                if(line[0] == 'S'){
+                    ajouterTrajet(new TrajetSimple(getInfo(line, 1).c_str(), getInfo(line, 2).c_str(), getInfo(line, 3).c_str()));
+                    
+                    
+                }
+                else if(line[0] == 'C')
+                {
+                    nbrTrajet = line[1] - '0';
+                    TabDynamique* liste = new TabDynamique(nbrTrajet);
+                    string depart = getInfo(line, 1);
+                    string arrive, mdt;
+                    for(int i = 3; i < (nbrTrajet *2 +1); i+= 2)
+                    {
+                        arrive = getInfo(line, i);
+                        mdt = getInfo(line, i+1);
+                        liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                        depart = arrive;
+                    }
+                    arrive = getInfo(line, 2);
+                    mdt = getInfo(line, nbrTrajet*2 + 1);
+                    liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                    ajouterTrajet(new TrajetCompose(liste));
+                    
+                }
+            }
+        }
+        
+        fichier.close();
+    }
+    else cout << "Unable to open file";
+    
+} //----- Fin de lire
+
+
+void Catalogue::chargementTotal(string c)
+// Algorithme :
+//
+{
+    string line;
+    int nbrTrajet;
+    ifstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    if (fichier.is_open())
+    {
+        while ( getline (fichier,line) )
+        {
+            if(line[0] == 'S'){
+                ajouterTrajet(new TrajetSimple(getInfo(line, 1).c_str(), getInfo(line, 2).c_str(), getInfo(line, 3).c_str()));
+                
+                
+            }
+            else if(line[0] == 'C')
+            {
+                nbrTrajet = line[1] - '0';
+                TabDynamique* liste = new TabDynamique(nbrTrajet);
+                string depart = getInfo(line, 1);
+                string arrive, mdt;
+                for(int i = 3; i < (nbrTrajet *2 +1); i+= 2)
+                {
+                    arrive = getInfo(line, i);
+                    mdt = getInfo(line, i+1);
+                    liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                    depart = arrive;
+                }
+                arrive = getInfo(line, 2);
+                mdt = getInfo(line, nbrTrajet*2 + 1);
+                liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
+                ajouterTrajet(new TrajetCompose(liste));
+                
+            }
+        }
+        
+        fichier.close();
+    }
+    else cout << "Unable to open file";
+    
+} //----- Fin de lire
 
 
 void Catalogue::rechercherParcourV1(const char* d, const char* a) const
@@ -116,7 +501,7 @@ Catalogue & Catalogue::operator = ( const Catalogue & c )
 //
 {
 #ifdef MAP
-    cout << "Appel de l'operateur = de Catalogue" << endl;
+    cout << "Error : Appel de l'operateur = de Catalogue" << endl;
 #endif
     return *this;
 } //----- Fin de operator =
@@ -138,7 +523,7 @@ Catalogue::Catalogue(const Catalogue & c)
 //
 {
 #ifdef MAP
-    cout << "Appel du constructeur par copie de Catalogue" << endl;
+    cout << "Error : Appel du constructeur par copie de Catalogue" << endl;
 #endif
 } //----- Fin de Catalogue (constructeur de copie)
 

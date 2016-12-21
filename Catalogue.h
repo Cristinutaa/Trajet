@@ -14,6 +14,10 @@
 //--------------------------------------------------- Interfaces utilisées
 #include "Trajet.h"
 #include "TabDynamique.h"
+#include "TrajetSimple.h"
+#include "TrajetCompose.h"
+#include <cstring>
+using namespace std;
 
 
 //------------------------------------------------------------------------
@@ -35,7 +39,31 @@ public:
     void afficherTrajet() const;
     // Description :
     //      Methode pour afficher les trajets du catalogue.
-
+    
+    
+    void chargementTotal(string chemin);
+    // Description :
+    //      Methode pour lire un fichier à l'adresse donné.
+    // Mode d'emploi :
+    //      Passez en paramettre le chemin d'acces au fichier.
+    
+    
+    void chargementType(string chemin, char type);
+    void chargementVilleD(string chemin, string depart);
+    void chargementVilleA(string chemin, string arrivee);
+    void chargementVilleDA(string chemin, string depart, string arrivee);
+    void chargementIntervalle(string chemin, int n, int m);
+    
+    string getInfo(string ligne, int id) const;
+    
+    
+    void sauvegardeTotal(string chemin) const;
+    void sauvegardeType(string chemin, char type) const;
+    void sauvegardeVilleD(string chemin, string depart) const;
+    void sauvegardeVilleA(string chemin, string arrivee) const;
+    void sauvegardeVilleDA(string chemin, string depart, string arrivee) const;
+    void sauvegardeIntervalle(string chemin, int n, int m) const;
+    
     
     const Trajet* ajouterTrajet(const Trajet* t);
     // Description :

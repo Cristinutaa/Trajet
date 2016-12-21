@@ -12,8 +12,9 @@
 
 
 //--------------------------------------------------- Interfaces utilisées
+#include <string.h>
 #include "Trajet.h"
-
+using namespace std;
 
 //------------------------------------------------------------------------
 // Rôle de la classe <TrajetSimple>
@@ -40,6 +41,12 @@ public:
     const char* getArrivee() const;
     // Description :
     //      Cette methode renvoie la ville d'arrivée du trajet composé.
+    
+    const char* getMoyenDeTransport() const;
+    
+    virtual const char getType() const;
+    
+    virtual void ecrireTrajet(string c) const;
     
     
     virtual const char* description() const;
@@ -81,17 +88,17 @@ protected:
     //----------------------------------------------------- Attributs protégés
     
     
-    const char* transport;
+    char* transport;
     // Description :
     //      Cet atribut est le moyen de transport pour efectuer le trajet simple.
 
     
-    const char* depart;
+    char* depart;
     // Description :
     //      Cet atribut est la ville de depart du trajet simple.
 
     
-    const char* arrivee;
+    char* arrivee;
     // Description :
     //      Cet atribut est la ville d'arrivée du trajet simple.
     

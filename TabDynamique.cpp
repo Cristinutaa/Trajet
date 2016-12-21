@@ -77,6 +77,15 @@ TabDynamique & TabDynamique::operator = ( const TabDynamique & t )
 #ifdef MAP
     cout << "Appel de l'operateur = de TabDynamique" << endl;
 #endif
+    for(int i = 0; i < utilise; i++)
+    {
+        delete trajets[i];
+    }
+    delete[] trajets;
+    
+    alloue = t.alloue;
+    utilise = t.utilise;
+    trajets = t.trajets;
     return *this;
 } //----- Fin de operator =
 

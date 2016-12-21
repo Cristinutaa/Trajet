@@ -11,11 +11,9 @@
 //---------------------------------------------------------------- INCLUDE
 
 //-------------------------------------------------------- Include système
-#include <string.h>
 #include <iostream>
+#include <fstream>
 using namespace std;
-
-
 
 
 //-------------------------------------------------------- Include personnel
@@ -41,12 +39,39 @@ const char* TrajetSimple::getArrivee() const
 } //----- Fin de getArrivee
 
 
+const char TrajetSimple::getType() const
+{
+    return 'S';
+}
+
+
+const char* TrajetSimple::getMoyenDeTransport() const
+{
+    return transport;
+}
+
+
+void TrajetSimple::ecrireTrajet(string c) const
+{
+    ofstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c, ios::out | ios::app);
+    if(fichier.is_open())
+    {
+        fichier << "S#" << depart << '#' << arrivee << '#' << transport << endl;
+    }
+    else
+        cout << "Impossible d'ouvrire " << c << endl;
+    
+    fichier.close();
+}
+
 const char* TrajetSimple::description() const
 // Algorithme :
 //
 {
     char* res = new char[2000];
-    return strcat(strcat(strcat(strcat(strcat(strcat(res, "De "), depart), " à "), arrivee), " en "), transport);
+    strcpy(res, "");
+    return strcat(strcat(strcat(strcat(strcat(strcat(res ,"De ") , depart), " à "), arrivee), " en "), transport);
 } //----- Fin de description
 
 
@@ -63,13 +88,21 @@ TrajetSimple & TrajetSimple::operator = ( const TrajetSimple & t )
 
 
 //-------------------------------------------- Constructeurs - destructeur
-TrajetSimple::TrajetSimple(const char* d, const char* a, const char* t): transport(t), depart(d), arrivee(a)
+TrajetSimple::TrajetSimple(const char* d, const char* a, const char* t)
 // Algorithme :
 //
 {
 #ifdef MAP
     cout << "Appel du constructeur de TrajetSimple" << endl;
 #endif
+    transport = new char[255];
+    depart = new char[255];
+    arrivee = new char[255];
+    
+    strcpy(transport, t);
+    strcpy(depart, d);
+    strcpy(arrivee, a);
+    
 } //----- Fin de TrajetSimple
 
 TrajetSimple::TrajetSimple(TrajetSimple const &t)
@@ -77,6 +110,14 @@ TrajetSimple::TrajetSimple(TrajetSimple const &t)
 #ifdef MAP
     cout << "Appel du constructeur de copie de TrajetSimple" << endl;
 #endif
+    transport = new char[255];
+    depart = new char[255];
+    arrivee = new char[255];
+    
+    strcpy(transport, t.transport);
+    strcpy(depart, t.depart);
+    strcpy(arrivee, t.arrivee);
+    
 } //----- Fin de TrajetSimple
 
 TrajetSimple::~TrajetSimple()
@@ -84,4 +125,8 @@ TrajetSimple::~TrajetSimple()
 #ifdef MAP
     cout << "Appel du destructeur de TrajetSimple" << endl;
 #endif
+    
+    delete[] transport;
+    delete [] arrivee;
+    delete [] depart;
 } //----- Fin de ~TrajetSimple

@@ -12,7 +12,7 @@
 
 //-------------------------------------------------------- Include système
 #include <iostream>
-#include <string.h>
+#include <fstream>
 using namespace std;
 
 
@@ -39,19 +39,51 @@ const char* TrajetCompose::getArrivee() const
 } //----- Fin de getArrivee
 
 
+const char TrajetCompose::getType() const
+{
+    return 'C';
+}
+
+
 const char* TrajetCompose::description() const
 // Algorithme :
 //
 {
     char* res = new char[2000];
+    strcpy(res, "");
     for(int i = 0; i<trajets.nbElement(); i++){
         
-        strcat(res, (*trajets.get(i)).description());
+        strcat(res, trajets.get(i)->description());
         if(i < trajets.nbElement() -1)
             strcat(res, " - ");
     }
     return res;
 } //----- Fin de description
+
+void TrajetCompose::ecrireTrajet(string c) const
+{
+    ofstream fichier;
+    fichier.open("Documents/Programmation/Trajet/Trajet/"+c, ios::out | ios::app);
+    if(fichier.is_open())
+    {
+        fichier << 'C' << trajets.nbElement() << '#' << getDepart() << '#' << getArrivee() << '#' ;
+        for(int i = 0; i < trajets.nbElement() - 1; i++)
+        {
+            if(trajets.get(i)->getType() == 'S')
+                fichier << trajets.get(i)->getArrivee() << '#' << (static_cast<const TrajetSimple*>(trajets.get(i)))->getMoyenDeTransport() << '#';
+            else
+                fichier << trajets.get(i)->getArrivee() << "#-#";
+        }
+        if(trajets.get(trajets.nbElement() - 1)->getType() == 'S')
+            fichier << (static_cast<const TrajetSimple*>(trajets.get(trajets.nbElement() - 1)))->getMoyenDeTransport() << endl;
+        else
+            fichier << '-' << endl;
+    }
+    else
+        cout << "Impossible d'ouvrire " << c << endl;
+    
+    fichier.close();
+}
 
 
 //------------------------------------------------- Surcharge d'opérateurs

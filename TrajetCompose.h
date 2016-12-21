@@ -15,6 +15,8 @@
 #include "Trajet.h"
 #include "TrajetSimple.h"
 #include "TabDynamique.h"
+#include <string.h>
+using namespace std;
 
 
 //------------------------------------------------------------------------
@@ -34,19 +36,24 @@ public:
     //----------------------------------------------------- Méthodes publiques
     
     
-    const char* getDepart() const;
+    virtual const char* getDepart() const;
     // Description :
     //      Cette methode renvoie la ville de depart du trajet composé.
 
     
-    const char* getArrivee() const;
+    virtual const char* getArrivee() const;
     // Description :
     //      Cette methode renvoie la ville d'arrivée du trajet composé.
-
+    
+    
     
     virtual const char* description() const;
     // Description :
     //      Cette methode renvoi le trajet composé.
+    
+    virtual void ecrireTrajet(string c) const;
+    
+    virtual const char getType() const;
     
     
     //------------------------------------------------- Surcharge d'opérateurs

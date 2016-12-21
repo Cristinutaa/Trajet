@@ -11,6 +11,9 @@
 #define Trajet_h
 
 
+#include <string.h>
+using namespace std;
+
 //------------------------------------------------------------------------
 // Rôle de la classe <Trajet>
 //
@@ -42,6 +45,9 @@ public:
     //      Methode virtuelle pure qui renvoie la ville d'arrivée d'un trajet
     
     
+    virtual void ecrireTrajet(string c) const = 0;
+    
+    virtual const char getType() const = 0;
     //------------------------------------------------- Surcharge d'opérateurs
     Trajet & operator = ( const Trajet & t );
     // Description :
