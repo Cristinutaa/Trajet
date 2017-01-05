@@ -25,6 +25,14 @@ using namespace std;
 //----------------------------------------------------------------- PUBLIC
 
 //----------------------------------------------------- Méthodes publiques
+
+const string chemin = "Documents/Programmation/Trajet/Trajet/import/";
+
+bool Catalogue::isEmpty() const
+{
+    return (trajets.nbElement() == 0);
+}
+
 void Catalogue::afficherTrajet() const
 // Algorithme :
 //
@@ -35,6 +43,7 @@ void Catalogue::afficherTrajet() const
     {
         cout << "-  " << trajets.get(i)->description() << endl;
     }
+    cout << "\r\n" << endl;
 } //----- Fin de afficherTrajet
 
 
@@ -44,58 +53,84 @@ void Catalogue::sauvegardeTotal(string chemin) const
     {
         trajets.get(i)->ecrireTrajet(chemin);
     }
+    cout << "Exportation terminée, "<< trajets.nbElement() << " trajet(s) exporté(s)\r\n" << endl;
 }
 
 
 void Catalogue::sauvegardeType(string chemin, char type) const
 {
+    int cpt = 0;
     for(int i = 0; i < trajets.nbElement(); i++)
     {
         if(trajets.get(i)-> getType() == type)
+        {
             trajets.get(i)->ecrireTrajet(chemin);
+            cpt++;
+        }
     }
+    cout << "Exportation terminée, "<< cpt << " trajet(s) exporté(s)\r\n" << endl;
 }
 
 
 void Catalogue::sauvegardeVilleD(string chemin, string depart) const
 {
+    int cpt = 0;
     for(int i = 0; i < trajets.nbElement(); i++)
     {
         if(strcmp(trajets.get(i)-> getDepart(),depart.c_str()) == 0)
+        {
             trajets.get(i)->ecrireTrajet(chemin);
+            cpt++;
+        }
     }
+    
 }
 
 
 void Catalogue::sauvegardeVilleA(string chemin, string arrivee) const
 {
+    int cpt = 0;
     for(int i = 0; i < trajets.nbElement(); i++)
     {
         if(strcmp(trajets.get(i)-> getArrivee(),arrivee.c_str()) == 0)
+        {
             trajets.get(i)->ecrireTrajet(chemin);
+            cpt++;
+        }
     }
+    cout << "Exportation terminée, "<< cpt << " trajet(s) exporté(s)\r\n" << endl;
 }
 
 
 void Catalogue::sauvegardeVilleDA(string chemin, string depart, string arrivee) const
 {
+    int cpt = 0;
     for(int i = 0; i < trajets.nbElement(); i++)
     {
         if(strcmp(trajets.get(i)-> getDepart(),depart.c_str()) == 0 && strcmp(trajets.get(i)-> getArrivee(),arrivee.c_str()) == 0)
+        {
             trajets.get(i)->ecrireTrajet(chemin);
+            cpt++;
+        }
     }
+    cout << "Exportation terminée, "<< cpt << " trajet(s) exporté(s)\r\n" << endl;
 }
 
 
 void Catalogue::sauvegardeIntervalle(string chemin, int n, int m) const
 {
+    int cpt = 0;
     for(int i = 0; i < trajets.nbElement(); i++)
     {
         if(i >= n && i <= m)
+        {
             trajets.get(i)->ecrireTrajet(chemin);
+            cpt++;
+        }
         else if(i > m)
             break;
     }
+    cout << "Exportation terminée, "<< cpt << " trajet(s) exporté(s)\r\n" << endl;
 }
 
 
@@ -141,7 +176,7 @@ void Catalogue::chargementIntervalle(string c, int n, int m)
         string line;
         int nbrTrajet;
         ifstream fichier;
-        fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+        fichier.open((chemin+c).c_str());
         if (fichier.is_open())
         {
             int cpt = 0;
@@ -178,8 +213,10 @@ void Catalogue::chargementIntervalle(string c, int n, int m)
             }
             
             fichier.close();
+            cout << "Importation terminée, voici le nouveau catalogue : \r\n" << endl;
+            afficherTrajet();
         }
-        else cout << "Unable to open file";
+        else cout << "Unable to open " << c << endl;
     }
 
 } //----- Fin de lire
@@ -192,7 +229,7 @@ void Catalogue::chargementVilleDA(string c, string depart, string arrivee)
     string line;
     int nbrTrajet;
     ifstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    fichier.open((chemin+c).c_str());
     if (fichier.is_open())
     {
         while ( getline (fichier,line) )
@@ -227,8 +264,10 @@ void Catalogue::chargementVilleDA(string c, string depart, string arrivee)
         }
         
         fichier.close();
+        cout << "Importation terminée, voici le nouveau catalogue : \r\n" << endl;
+        afficherTrajet();
     }
-    else cout << "Unable to open file";
+    else cout << "Unable to open " << c << endl;
     
 } //----- Fin de lire
 
@@ -240,7 +279,7 @@ void Catalogue::chargementVilleA(string c, string arrivee)
     string line;
     int nbrTrajet;
     ifstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    fichier.open((chemin+c).c_str());
     if (fichier.is_open())
     {
         while ( getline (fichier,line) )
@@ -275,8 +314,10 @@ void Catalogue::chargementVilleA(string c, string arrivee)
         }
         
         fichier.close();
+        cout << "Importation terminée, voici le nouveau catalogue : \r\n" << endl;
+        afficherTrajet();
     }
-    else cout << "Unable to open file";
+    else cout << "Unable to open " << c << endl;
     
 } //----- Fin de lire
 
@@ -288,7 +329,7 @@ void Catalogue::chargementVilleD(string c, string depart)
     string line;
     int nbrTrajet;
     ifstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    fichier.open((chemin+c).c_str());
     if (fichier.is_open())
     {
         while ( getline (fichier,line) )
@@ -323,8 +364,10 @@ void Catalogue::chargementVilleD(string c, string depart)
         }
         
         fichier.close();
+        cout << "Importation terminée, voici le nouveau catalogue : \r\n" << endl;
+        afficherTrajet();
     }
-    else cout << "Unable to open file";
+    else cout << "Unable to open " << c << endl;
     
 } //----- Fin de lire
 
@@ -336,7 +379,7 @@ void Catalogue::chargementType(string c, char type)
     string line;
     int nbrTrajet;
     ifstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    fichier.open((chemin+c).c_str());
     if (fichier.is_open())
     {
         while ( getline (fichier,line) )
@@ -371,8 +414,10 @@ void Catalogue::chargementType(string c, char type)
         }
         
         fichier.close();
+        cout << "Importation terminée, voici le nouveau catalogue : \r\n" << endl;
+        afficherTrajet();
     }
-    else cout << "Unable to open file";
+    else cout << "Unable to open " << c << endl;
     
 } //----- Fin de lire
 
@@ -384,7 +429,7 @@ void Catalogue::chargementTotal(string c)
     string line;
     int nbrTrajet;
     ifstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c);
+    fichier.open((chemin+c).c_str());
     if (fichier.is_open())
     {
         while ( getline (fichier,line) )
@@ -411,13 +456,14 @@ void Catalogue::chargementTotal(string c)
                 mdt = getInfo(line, nbrTrajet*2 + 1);
                 liste->ajouter(new TrajetSimple(depart.c_str(), arrive.c_str(), mdt.c_str()));
                 ajouterTrajet(new TrajetCompose(liste));
-                
             }
         }
         
         fichier.close();
+        cout << "Importation terminée, voici le nouveau catalogue : \r\n" << endl;
+        afficherTrajet();
     }
-    else cout << "Unable to open file";
+    else cout << "Unable to open " << c << endl;
     
 } //----- Fin de lire
 

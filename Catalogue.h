@@ -36,6 +36,8 @@ public:
     
     //----------------------------------------------------- Méthodes publiques
     
+    bool isEmpty() const;
+    
     void afficherTrajet() const;
     // Description :
     //      Methode pour afficher les trajets du catalogue.

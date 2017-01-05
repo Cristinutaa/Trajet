@@ -24,166 +24,58 @@
 
 using namespace std;
 
-void testTotal(Catalogue c)
-{
-    cout << "Sauvegarde totale" << endl;
-    c.chargementTotal("Catalogue.txt");
-    c.afficherTrajet();
-    
-    cout << "Ecriture total" << endl;
-    c.sauvegardeTotal("EcritureTotal.txt");
-}
-
-void testType(Catalogue c, char type)
-{
-    cout << "Sauvegarde par type : " << type << endl;
-    c.chargementType("Catalogue.txt", type);
-    c.afficherTrajet();
-    
-    cout << "Ecriture type" << endl;
-    c.sauvegardeType("EcritureType.txt", type);
-}
-
-void testD1(Catalogue c, string depart)
-{
-    cout << "Sauvegarde par depart : " << depart << endl;
-    c.chargementVilleD("Catalogue.txt", depart);
-    c.afficherTrajet();
-    
-    cout << "Ecriture Depart" << endl;
-    c.sauvegardeVilleD(("EcritureDepart"+depart+".txt"), depart);
-}
-
-
-void testD2(Catalogue c, string depart)
-{
-    cout << "Sauvegarde total" << endl;
-    c.chargementTotal("Catalogue.txt");
-    c.afficherTrajet();
-    
-    cout << "Ecriture Depart" << endl;
-    c.sauvegardeVilleD(("EcritureDepart"+depart+".txt"), depart);
-}
-
-void testA1(Catalogue c, string a)
-{
-    cout << "Sauvegarde par arrivee : " << a << endl;
-    c.chargementVilleA("Catalogue.txt", a);
-    c.afficherTrajet();
-    
-    cout << "Ecriture Arrivee" << endl;
-    c.sauvegardeVilleA(("EcritureArrivee"+a+".txt"), a);
-}
-
-
-void testA2(Catalogue c, string a)
-{
-    cout << "Sauvegarde total" << endl;
-    c.chargementTotal("Catalogue.txt");
-    c.afficherTrajet();
-    
-    cout << "Ecriture Arrivee" << endl;
-    c.sauvegardeVilleA(("EcritureArriveet"+a+".txt"), a);
-}
-
-
-void testDA1(Catalogue c, string depart, string a)
-{
-    cout << "Sauvegarde par depart et arrivée : " << depart << " - " << a << endl;
-    c.chargementVilleDA("Catalogue.txt", depart, a);
-    c.afficherTrajet();
-    
-    cout << "Ecriture Depart et Arrivee" << endl;
-    c.sauvegardeVilleDA(("EcritureDepart"+depart+a+".txt"), depart, a);
-}
-
-
-void testDA2(Catalogue c, string depart, string a)
-{
-    cout << "Sauvegarde total" << endl;
-    c.chargementTotal("Catalogue.txt");
-    c.afficherTrajet();
-    
-    cout << "Ecriture Depart" << endl;
-    c.sauvegardeVilleDA(("EcritureDepart"+depart+a+".txt"), depart, a);
-}
-
-void testIL(Catalogue c, int n, int m)
-{
-    cout << "Sauvegarde intervalle de " << n << " à " << m <<  endl;
-    c.chargementIntervalle("Catalogue.txt", n, m);
-    c.afficherTrajet();
-}
-
-
-void testIE(Catalogue c, int n, int m)
-{
-    cout << "Sauvegarde total" << endl;
-    c.chargementTotal("Catalogue.txt");
-    c.afficherTrajet();
-    
-    cout << "Ecriture Intervalle" << endl;
-    c.sauvegardeIntervalle(("EcritureIntervalle.txt"), n, m);
-}
 
 
 int main(int argc, const char * argv[]) {
     Catalogue c;
-    //testTotal(c);
-    //testType(c, 'C');
-    //testD1(c, "Lyon");
-    //testD2(c, "Lyon");
-    //testD2(c, "Paris");
-    //testA2(c, "Paris");
-    //testDA2(c,"Lyon", "Paris");
-    //testIL(c, 2, 4);
-    testIE(c, 2, 2);
-    
-    /*bool boucle = true;
+    bool boucle = true;
     int choix;
     while(boucle){  // La boucle principale du programme/ Le menu principal
-        saut();
         cout << "Que shouaitez vous faire ?" << endl;
         cout << "- Afficher le catalogue de voyage (1)." << endl;
         cout << "- Rechercher un trajet (2)." << endl;
         cout << "- Ajouter un nouveau trajet (3)." << endl;
-        cout << "- Quitter (4)." << endl;
-        while (!(cin >> choix) || choix < 1 || choix > 4){  // On verrifie que l'entrée saisie est bien un entier et qu'il est compris entre 1 et 4.
+        cout << "- Importer des trajets (4)" << endl;
+        cout << "- Exporter des trajets (5)" << endl;
+        cout << "- Quitter (6)." << endl;
+        while (!(cin >> choix) || choix < 1 || choix > 6){  // On verrifie que l'entrée saisie est bien un entier et qu'il est compris entre 1 et 4.
             cerr << "Erreur de saisie." << endl;
             cin.clear(); // effacer les bits d'erreurs
             cin.ignore( numeric_limits<streamsize>::max(), '\n' ); // supprimer la ligne erronée dans le buffer
         }
         if(choix == 1)  // On affiche le catalogue.
         {
-            saut();
+            
             c.afficherTrajet();
         }
-        else if (choix == 2)    //On recherche un trajet.
+        else if (choix == 2 && !c.isEmpty())    //On recherche un trajet.
         {
-            char* dep = new char[255];
-            char* arr = new char[255];
-            saut();
+            char dep[255];
+            char arr[255];
+            
             cout << "Quelle trajet recherchez vous ?" << endl;
             cout << "Ecrivez de la forme : <depart> - <arrivée>" << endl;
             scanf("%255s - %255s",dep, arr);
             c.rechercherParcourV1(dep, arr);
             cout << "\n\n\rRecherche de niveau 2 pour les trajets au départ de " << dep << " arrivant à " << arr << " : " << endl;
             cout << c.rechercherParcourV2(dep, arr) << " trajet(s) trouvé(s)" << endl;
-            delete[] dep;
-            delete[] arr;
             
             
+        }
+        else if (choix == 2 && c.isEmpty())
+        {
+            cout << "Le catalogue est vide, recherche inutile." << endl;
         }
         else if (choix == 3) // On ajoute un trajet.
         {
             while(boucle){
-                saut();
+                
                 cout << "Quelle type de trajet voulez vous saisire ?" << endl;
                 cout << "- Un trajet simple (1)." << endl;
                 cout << "- Un trajet composé (2)." << endl;
-                cout << "- Retour au menu (4)." << endl;
+                cout << "- Retour au menu (3)." << endl;
                 
-                while (!(cin >> choix) || choix < 1 || choix > 4 || choix == 3){
+                while (!(cin >> choix) || choix < 1 || choix > 3){
                     cerr << "Erreur de saisie." << endl;
                     cin.clear();
                     cin.ignore( numeric_limits<streamsize>::max(), '\n' );
@@ -191,20 +83,17 @@ int main(int argc, const char * argv[]) {
                 
                 if(choix == 1)
                 {
-                    char* dep = new char[255];
-                    char* arr = new char[255];
-                    char* mdt = new char[255];
-                    saut();
+                    char dep[255];
+                    char arr[255];
+                    char mdt[255];
+                    
                     cout << "Quelle est votre trajet ?" << endl;
                     cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
                     scanf("%255s - %255s - %255s",dep, arr, mdt);
-                    saut();
+                    
                     cout << "Le trajet :\n\r" << (c.ajouterTrajet(new TrajetSimple(dep, arr, mdt)))->description() <<"\n\rA été ajouté avec succès !\n\n\r" << endl;
                     
                     c.afficherTrajet();
-                    delete[] dep;
-                    delete[] arr;
-                    delete[] mdt;
                     
                 }
                 else if(choix == 2)
@@ -222,26 +111,24 @@ int main(int argc, const char * argv[]) {
                         }
                         if(choix == 1)
                         {
-                            char* arr = new char[255];
-                            char* mdt = new char[255];
-                            saut();
+                            char arr[255];
+                            char mdt[255];
+                            
                             cout << "Quelle est votre trajet ?" << endl;
                             if(tabD->nbElement() == 0)
                             {
-                                char* dep = new char[255];
+                                char dep[255];
                                 cout << "Ecrivez de la forme : <depart> - <arrivée> - <moyen de transport>" << endl;
                                 scanf("%255s - %255s - %255s",dep, arr, mdt);
                                 tabD->ajouter(new TrajetSimple(dep, arr, mdt));
-                                delete[] dep;
                             }
                             else{
-                                const char* dep = tabD->get(tabD->nbElement() -1)->getArrivee() ;
+                                char dep[255];
+                                strcpy(dep, tabD->get(tabD->nbElement() -1)->getArrivee());
                                 cout << "Ecrivez de la forme : <arrivée> - <moyen de transport> pour le trajet au départ de " << dep << endl;
                                 scanf("%255s - %255s", arr, mdt);
                                 tabD->ajouter(new TrajetSimple(dep, arr, mdt));
                             }
-                            delete[] arr;
-                            delete[] mdt;
                                 
                         }
                         else if (choix == 2)
@@ -262,7 +149,7 @@ int main(int argc, const char * argv[]) {
                         delete tabD;
                     }
                 }
-                else if(choix == 4)
+                else if(choix == 3)
                 {
                     boucle = false;
                 }
@@ -270,31 +157,217 @@ int main(int argc, const char * argv[]) {
             }
             boucle = true;
         }
-        else if (choix == 4)    // On quitte le programme.
+        else if (choix == 4)    // Importer les trajets
+        {
+            cout << "Quelle type d'importation souhaitez-vous faire ?" << endl;
+            cout << "- Importation total (1)" << endl;
+            cout << "- Importation par type de trajet (2)" << endl;
+            cout << "- Importation par ville de départ et/ou d'arrivée (3)" << endl;
+            cout << "- Importation par borne (4)" << endl;
+            cout << "- Annuler (5)" << endl;
+            
+            while (!(cin >> choix) || choix < 1 || choix > 5){
+                cerr << "Erreur de saisie." << endl;
+                cin.clear();
+                cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+            }
+            string fichier;
+            
+            if(choix != 5)
+            {
+                cout << "Quelle fichier souhaitez vous importer (sans l'extension)?" << endl;
+                cin >> fichier;
+                fichier += ".txt";
+                cout << "Placer le fichier " << fichier << " dans le dossier import puis entrez 1" << endl;
+                int pause;
+                cin >> pause;
+            }
+        
+            if(choix == 1)  // Total
+            {
+                c.chargementTotal(fichier.c_str());
+            }
+            else if(choix == 2) // Par type
+            {
+                cout << "Quelle type de trajet voulez vous importer ? (S:Simple | C:Compose)" << endl;
+                char rep;
+                while (!(cin >> rep) || (rep != 'C' && rep != 'S')){
+                    cerr << "Erreur de saisie." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
+                
+                c.chargementType(fichier, rep);
+                
+            }
+            else if( choix == 3)    // Par villes
+            {
+                cout << "Renseignez une ville de départ ( [-] si vous ne souhaitez pas renseigner de ville de départ)" << endl;
+                string depart;
+                bool dep = true;
+                cin >> depart;
+                if(depart[0] == '-')
+                {
+                    dep = false;
+                    cout << "Vous n'avez pas renseigné de ville de départ." << endl;
+                }
+                
+                cout << "Renseignez une ville d'arrivée ( [-] si vous ne souhaitez pas renseigner de ville d'arrivée)" << endl;
+                string arrivee;
+                bool arr = true;
+                cin >> arrivee;
+                if(arrivee[0] == '-')
+                {
+                    arr = false;
+                    cout << "Vous n'avez pas renseigné de ville d'arrivée." << endl;
+                }
+                
+                if(dep && arr)
+                    c.chargementVilleDA(fichier, depart, arrivee);
+                
+                else if(dep)
+                    c.chargementVilleD(fichier, depart);
+                
+                else if(arr)
+                    c.chargementVilleA(fichier, arrivee);
+                
+                else
+                    cout << "Catalogue inchangé !" << endl;
+            }
+            else if( choix == 4)    // Par borne
+            {
+                int min, max;
+                cout << "Entrez la borne inférieur (>= 1) :" << endl;
+                while (!(cin >> min) || min < 1){
+                    cerr << "Erreur de saisie";
+                    if(min < 1)
+                        cerr << " : Entrez une valeur supérieur ou égale à 1." << endl;
+                    else
+                        cerr << "." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
+
+                cout << "Entrez la borne supérieur :" << endl;
+                while (!(cin >> max) || max < min){
+                    cerr << "Erreur de saisie";
+                    if(max < min)
+                        cerr << " : Entrez une valeur supérieur ou égale à la valeur minimal." << endl;
+                    else
+                        cerr << "." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
+                c.chargementIntervalle(fichier, --min, --max);
+            }
+        }
+        else if (choix == 5 && !c.isEmpty())    // Exporter les trajets
+        {
+            cout << "Quelle type d'exportation souhaitez-vous faire ?" << endl;
+            cout << "- Exportation total (1)" << endl;
+            cout << "- Exportation par type de trajet (2)" << endl;
+            cout << "- Exportation par ville de départ et/ou d'arrivée (3)" << endl;
+            cout << "- Exportation par borne (4)" << endl;
+            cout << "- Annuler (5)" << endl;
+            
+            while (!(cin >> choix) || choix < 1 || choix > 5){
+                cerr << "Erreur de saisie." << endl;
+                cin.clear();
+                cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+            }
+            string fichier;
+            
+            if(choix != 5)
+            {
+                cout << "Dans quelle fichier souhaitez-vous exporter le catalogue ? (sans l'extension)?" << endl;
+                cin >> fichier;
+                fichier += ".txt";
+            }
+        
+            if(choix == 1)  // Total
+            {
+                c.sauvegardeTotal(fichier.c_str());
+            }
+            else if(choix == 2) // Par type
+            {
+                cout << "Quelle type de trajet voulez vous exporter ? (S:Simple | C:Compose)" << endl;
+                char rep;
+                while (!(cin >> rep) || (rep != 'C' && rep != 'S')){
+                    cerr << "Erreur de saisie." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
+                
+                c.sauvegardeType(fichier, rep);
+                
+            }
+            else if( choix == 3)    // Par villes
+            {
+                cout << "Renseignez une ville de départ ( [-] si vous ne souhaitez pas renseigner de ville de départ)" << endl;
+                string depart;
+                bool dep = true;
+                cin >> depart;
+                if(depart[0] == '-')
+                {
+                    dep = false;
+                    cout << "Vous n'avez pas renseigné de ville de départ." << endl;
+                }
+                
+                cout << "Renseignez une ville d'arrivée ( [-] si vous ne souhaitez pas renseigner de ville d'arrivée)" << endl;
+                string arrivee;
+                bool arr = true;
+                cin >> arrivee;
+                if(arrivee[0] == '-')
+                {
+                    arr = false;
+                    cout << "Vous n'avez pas renseigné de ville d'arrivée." << endl;
+                }
+                
+                if(dep && arr)
+                    c.sauvegardeVilleDA(fichier, depart, arrivee);
+                
+                else if(dep)
+                    c.sauvegardeVilleD(fichier, depart);
+                
+                else if(arr)
+                    c.sauvegardeVilleA(fichier, arrivee);
+                
+                else
+                    cout << "Catalogue inchangé !" << endl;
+            }
+            else if( choix == 4)    // Par borne
+            {
+                int min, max;
+                cout << "Entrez la borne inférieur (>= 1) :" << endl;
+                while (!(cin >> min) || min < 1){
+                    cerr << "Erreur de saisie";
+                    if(min < 1)
+                        cerr << " : Entrez une valeur supérieur ou égale à 1." << endl;
+                    else
+                        cerr << "." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
+                
+                cout << "Entrez la borne supérieur :" << endl;
+                while (!(cin >> max) || max < min){
+                    cerr << "Erreur de saisie";
+                    if(max < min)
+                        cerr << " : Entrez une valeur supérieur ou égale à la valeur minimal." << endl;
+                    else
+                        cerr << "." << endl;
+                    cin.clear();
+                    cin.ignore( numeric_limits<streamsize>::max(), '\n' );
+                }
+                c.sauvegardeIntervalle(fichier, --min, --max);
+            }
+        }
+        else if (choix == 5 && c.isEmpty())
+        {
+            cout << "Votre catalogue est vide, exportation inutile." << endl;
+        }
+        else if (choix == 6)    // On quitte le programme.
             boucle = false;
-    }*/
+    }
     return 0;
 }
-
-
-
-
-
-
-
-
-/*
- ofstream fichier;
- cout << "Ouverture de " << c << endl;
- fichier.open((c= "Documents/Programmation/Trajet/Trajet/"+c), ios::out);
- if(fichier.is_open())
- {
- cout << "Fichier ouvert, ecriture de : Test" << endl;
- fichier << "Test.\n";
- }
- else
- cout << "Impossible d'ouvrire " << c << endl;
- 
- 
- 
- fichier.close();*/

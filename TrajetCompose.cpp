@@ -63,7 +63,7 @@ const char* TrajetCompose::description() const
 void TrajetCompose::ecrireTrajet(string c) const
 {
     ofstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c, ios::out | ios::app);
+    fichier.open(("Documents/Programmation/Trajet/Trajet/export/"+c).c_str(), ios::out | ios::app);
     if(fichier.is_open())
     {
         fichier << 'C' << trajets.nbElement() << '#' << getDepart() << '#' << getArrivee() << '#' ;
@@ -118,6 +118,7 @@ TrajetCompose::TrajetCompose( TrajetCompose const &t)
 #ifdef MAP
     cout << "Appel du constructeur de copie de TrajetComposé" << endl;
 #endif
+    trajets = t.trajets;
 } //----- Fin de TrajetCompose (constructeur de copie)
 
 

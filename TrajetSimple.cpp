@@ -54,7 +54,7 @@ const char* TrajetSimple::getMoyenDeTransport() const
 void TrajetSimple::ecrireTrajet(string c) const
 {
     ofstream fichier;
-    fichier.open("Documents/Programmation/Trajet/Trajet/"+c, ios::out | ios::app);
+    fichier.open(("Documents/Programmation/Trajet/Trajet/export/"+c).c_str(), ios::out | ios::app);
     if(fichier.is_open())
     {
         fichier << "S#" << depart << '#' << arrivee << '#' << transport << endl;
